@@ -1,0 +1,31 @@
+{
+    "allow_r18":{
+        "description": "允许R18图片出现",
+        "type": "bool"
+    },
+    "allow_r18_groups":{
+        "description": "允许R18图片出现的群组，仅限QQ",
+        "hint": "留空以允许所有群组",
+        "type": "list"
+    },
+    "exclude_ai": {
+        "description": "排除AI作品",
+        "type": "bool"
+    },
+    "image_hash_break": {
+        "description": "破坏图片哈希",
+        "type": "bool"
+    },
+    "image_size": {
+        "description": "图片质量控制",
+        "type": "string",
+		"options": ["original", "regular", "small", "thumb", "mini"],
+        "default": "original"
+    },
+    "image_info": {
+        "description": "图片信息详细度",
+        "type": "string",
+		"options": ["只有图片", "基本信息", "带标签的基本信息"],
+        "default": "带标签的基本信息"
+    }
+}
