@@ -1,6 +1,6 @@
 name: astrbot_plugin_setu
 desc: Astrbot色图插件，支持自定义配置与标签指定，标签中不得含有空格
 help: 输入 /setu help 以查看帮助
-version: v1.0.0
+version: v1.0.1
 author: Raven95676
 repo: https://github.com/Raven95676/astrbot_plugin_setu
