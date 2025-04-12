@@ -8,6 +8,10 @@
         "hint": "留空以允许所有群组",
         "type": "list"
     },
+    "disallow_r18_groups":{
+        "description": "不允许R18图片出现的群组，仅限QQ",
+        "type": "list"
+    },
     "exclude_ai": {
         "description": "排除AI作品",
         "type": "bool"

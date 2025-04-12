@@ -51,13 +51,14 @@ async def image_obfus(img_data):
         return img_data
 
 
-@register("astrbot_plugin_setu", "Raven95676", "Astrbot色图插件，支持自定义配置与标签指定", "1.0.1", "https://github.com/Raven95676/astrbot_plugin_setu")
+@register("astrbot_plugin_setu", "Raven95676", "Astrbot色图插件，支持自定义配置与标签指定", "1.0.2", "https://github.com/Raven95676/astrbot_plugin_setu")
 class PluginSetu(Star):
     def __init__(self, context: Context, config: dict):
         super().__init__(context)
         self.config = config
         self.allow_r18 = self.config.get("allow_r18")
         self.allow_r18_groups = self.config.get("allow_r18_groups")
+        self.disallow_r18_groups = self.config.get("disallow_r18_groups")
         self.exclude_ai = self.config.get("exclude_ai")
         self.image_hash_break = self.config.get("image_hash_break")
         self.image_size = self.config.get("image_size")
@@ -79,10 +80,18 @@ class PluginSetu(Star):
 
         if self.allow_r18_groups:
             if event.get_platform_name() != "aiocqhttp":
-                logger.warning(f"不支持当前平台，已禁用R18")
+                logger.warning("不支持当前平台，已禁用R18")
                 allow_r18 = False
             elif group_id := event.get_group_id():
                 if group_id not in self.allow_r18_groups:
+                    allow_r18 = False
+        
+        if self.disallow_r18_groups:
+            if event.get_platform_name() != "aiocqhttp":
+                logger.warning("不支持当前平台，已禁用R18")
+                allow_r18 = False
+            elif group_id := event.get_group_id():
+                if group_id in self.disallow_r18_groups:
                     allow_r18 = False
 
         retry_count = 0
