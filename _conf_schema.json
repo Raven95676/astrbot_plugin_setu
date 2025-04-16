@@ -4,12 +4,12 @@
         "type": "bool"
     },
     "allow_r18_groups":{
-        "description": "允许R18图片出现的群组，仅限QQ",
+        "description": "允许R18图片出现的群组",
         "hint": "留空以允许所有群组",
         "type": "list"
     },
     "disallow_r18_groups":{
-        "description": "不允许R18图片出现的群组，仅限QQ",
+        "description": "不允许R18图片出现的群组",
         "type": "list"
     },
     "exclude_ai": {
@@ -18,6 +18,10 @@
     },
     "image_hash_break": {
         "description": "破坏图片哈希",
+        "type": "bool"
+    },
+    "send_forward": {
+        "description": "转发图片，仅限QQ",
         "type": "bool"
     },
     "image_size": {
