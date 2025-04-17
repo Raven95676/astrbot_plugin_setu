@@ -55,7 +55,7 @@ async def image_obfus(img_data):
     "astrbot_plugin_setu",
     "Raven95676",
     "Astrbot色图插件，支持自定义配置与标签指定",
-    "1.1.0",
+    "1.2.0",
     "https://github.com/Raven95676/astrbot_plugin_setu",
 )
 class PluginSetu(Star):
@@ -71,17 +71,32 @@ class PluginSetu(Star):
         self.image_size = self.config.get("image_size")
         self.image_info = self.config.get("image_info")
 
+    def parse_tags(self, tags: str) -> list[list[str]]:
+        """解析标签字符串"""
+        if not tags:
+            return []
+
+        result = []
+        for group in tags.split("&")[:3]:
+            tags = [tag.strip() for tag in group.split(",")[:20]]
+            if tags:
+                result.append(tags)
+
+        return result
+
     @command("setu")
     async def setu(self, event: AstrMessageEvent, tags: str = None):
         """用于获取一张色图"""
-        if not tags:
-            tags = []
-        else:
-            tags = [tag.strip() for tag in str(tags).split(",")]
+        tags = self.parse_tags(tags)
 
-        if tags and tags[0].lower() == "help":
+        if tags and tags[0] and tags[0][0].lower() == "help":
             yield event.plain_result(
-                "使用方法：\n  - 输入 setu 获取一张随机色图\n  - 输入 setu 标签1,标签2,... 获取特定标签的色图(标签中不得有空格)"
+                "使用方法：\n"
+                "  输入setu获取一张随机色图\n"
+                "  输入setu 标签1,标签2&标签3,标签4... 获取特定标签的色图\n"
+                "   - 使用,分隔OR条件（同一组标签任选其一）\n"
+                "   - 使用&分隔AND条件（必须同时满足）\n"
+                "   - 标签中不得有空格，AND条件最多3组，OR条件每组最多20个"
             )
             return
 
@@ -113,7 +128,7 @@ class PluginSetu(Star):
                     data = {
                         "r18": 2 if allow_r18 else 0,
                         "size": [self.image_size],
-                        "tag": [tags] if tags else None,
+                        "tag": tags,
                         "excludeAI": self.exclude_ai,
                     }
 
