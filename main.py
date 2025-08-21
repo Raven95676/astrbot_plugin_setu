@@ -55,7 +55,7 @@ async def image_obfus(img_data):
     "astrbot_plugin_setu",
     "Raven95676",
     "Astrbot色图插件，支持自定义配置与标签指定",
-    "1.2.0",
+    "1.2.1",
     "https://github.com/Raven95676/astrbot_plugin_setu",
 )
 class PluginSetu(Star):
@@ -102,17 +102,22 @@ class PluginSetu(Star):
 
         allow_r18 = self.allow_r18
 
-        if self.allow_r18_groups:
-            allow_r18 = False
-            if group_id := event.get_group_id():
-                if group_id not in self.allow_r18_groups:
-                    allow_r18 = False
+        # 仅在开启了r18全局开关的前提下才进行判断
+        if allow_r18:
+            # 白名单校验
+            if self.allow_r18_groups:
+                if group_id := event.get_group_id():
+                    if group_id not in self.allow_r18_groups:
+                        # 如果群号不在白名单下则不允许r18
+                        allow_r18 = False
 
-        if self.disallow_r18_groups:
-            allow_r18 = False
-            if group_id := event.get_group_id():
-                if group_id in self.disallow_r18_groups:
-                    allow_r18 = False
+            # 黑名单校验
+            if self.disallow_r18_groups:
+                if group_id := event.get_group_id():
+                    if group_id in self.disallow_r18_groups:
+                        # 如果群号在黑名单下则不允许r18
+                        allow_r18 = False
+
 
         send_forward = self.send_forward
 
